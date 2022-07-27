@@ -62,7 +62,68 @@ func (router *Router) InitializeStorage(name string) {
 // Initialize initializes the message event listener
 func (router *Router) Initialize(session *discordgo.Session) {
 	session.AddHandler(router.Handler())
+	// for _, command := range router.Commands {
+	// 	if command.Slash {
+	// 		slashCommand := &discordgo.ApplicationCommand{
+	// 			Name:        command.Name,
+	// 			Options:     command.Arguments,
+	// 			Description: command.Description,
+	// 		}
+
+	// 		if len(command.SlashGuilds) > 1 {
+	// 			for _, guildID := range command.SlashGuilds {
+	// 				cmds, err := session.ApplicationCommands(session.State.User.ID, guildID)
+
+	// 				if err != nil {
+	// 					panic(err)
+	// 				}
+
+	// 				// check if the command already exists
+	// 				for _, cmd := range cmds {
+	// 					if cmd.Name == command.Name {
+	// 						continue
+	// 					}
+	// 				}
+
+	// 				// add the command
+	// 				session.ApplicationCommandCreate(session.State.User.ID, guildID, slashCommand)
+	// 			}
+	// 		} else {
+	// 			cmds, err := session.ApplicationCommands(session.State.User.ID, "")
+
+	// 			if err != nil {
+	// 				panic(err)
+	// 			}
+
+	// 			// check if the command already exists
+	// 			for _, cmd := range cmds {
+	// 				if cmd.Name == command.Name {
+	// 					continue
+	// 				}
+	// 			}
+
+	// 			// add the command
+	// 			session.ApplicationCommandCreate(session.State.User.ID, "", slashCommand)
+	// 		}
+	// 	}
+	// }
 }
+
+// func (router *Router) SlashHandler() func(*discordgo.Session, *discordgo.InteractionCreate) {
+// 	return func(session *discordgo.Session, interaction *discordgo.InteractionCreate) {
+// 		for _, command := range router.Commands {
+// 			if interaction.Type == discordgo.InteractionApplicationCommand {
+// 				data := interaction.ApplicationCommandData()
+// 				if command.Name == data.Name {
+// 					context := &Ctx{
+// 						Session: session,
+// 					}
+// 					command.trigger(context)
+// 				}
+// 			}
+// 		}
+// 	}
+// }
 
 // Handler provides the discordgo handler for the given router
 func (router *Router) Handler() func(*discordgo.Session, *discordgo.MessageCreate) {
@@ -120,6 +181,7 @@ func (router *Router) Handler() func(*discordgo.Session, *discordgo.MessageCreat
 				CustomObjects: newObjectsMap(),
 				Router:        router,
 				Command:       command,
+				Message:       message,
 			}
 
 			// Trigger the command

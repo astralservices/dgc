@@ -2,17 +2,24 @@ package dgc
 
 import (
 	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 // Command represents a simple command
 type Command struct {
 	Name        string
 	Aliases     []string
+	Arguments   []*discordgo.ApplicationCommandOption
+	Category    string
 	Description string
+	Domain      string
 	Usage       string
 	Example     string
 	Flags       []string
 	IgnoreCase  bool
+	Slash       bool
+	SlashGuilds []string
 	SubCommands []*Command
 	RateLimiter RateLimiter
 	Handler     ExecutionHandler
@@ -64,6 +71,7 @@ func (command *Command) trigger(ctx *Ctx) {
 				CustomObjects: ctx.CustomObjects,
 				Router:        ctx.Router,
 				Command:       subCommand,
+				Message:       ctx.Message,
 			})
 			return
 		}
