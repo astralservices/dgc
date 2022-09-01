@@ -23,6 +23,8 @@ type Command struct {
 	SubCommands []*Command
 	RateLimiter RateLimiter
 	Handler     ExecutionHandler
+
+	IntegrationID string
 }
 
 // GetSubCmd returns the sub command with the given name if it exists
