@@ -408,6 +408,11 @@ func (arguments *Arguments) Get(n int) *Argument {
 	return arguments.arguments[n]
 }
 
+// Get all arguments as a slice
+func (arguments *Arguments) GetAll() []*Argument {
+	return arguments.arguments
+}
+
 // Remove removes the n'th argument
 func (arguments *Arguments) Remove(n int) {
 	// Check if the given index is valid
